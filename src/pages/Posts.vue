@@ -6,7 +6,7 @@ export default {
     name: 'Home',
     data() {
         return {
-            data: '',
+            data: [], //I POST VENGONO SALVATI QUI
             store,
         };
     },
@@ -15,59 +15,54 @@ export default {
     mounted() {
         axios.get(store.apiURL + 'posts') // URL API
             .then(res => {
-                this.data = res.data; // A BUON FINE
-                console.log('data:', res); // ERRORE
+                this.data = res.data.results.data; // A BUON FINE
+                console.log('data:', res); // LOG
             })
             .catch(err => {
-                console.log('Errore nel recupero dei dati:', err); // ERRORE
+                console.log('Errore nel recupero dei dati:', err); // LOG ERRORE
             });
     },
 };
 </script>
 
 <template>
-    <pre>
-        {
-        "success": true,
-        "results": {
-            "current_page": 1,
-            "data": [
-            {
-                "id": 1,
-                "type_id": 1,
-                "title": "Sassari Hater",
-                "slug": "insurance-sales-agent-65218",
-                "subject": "JUST HATE SASSARI MAN",
-                "start_date": "0001-01-01",
-                "end_date": "9999-12-31",
-                "number_of_posts": 1,
-                "collaborators": "ALL THE WORLD",
-                "image_path": "uploads/AVwygwJmgc4Wvi7FGR5ELVF1pe1gSdWSdqBmZtvx.png",
-                "image_original_name": "Screenshot 2024-07-26 112928.png",
-                "created_at": "2024-09-30T22:45:31.000000Z",
-                "updated_at": "2024-09-30T22:48:13.000000Z",
-                "type": {
-                "id": 1,
-                "name": "HTML",
-                "slug": "html",
-                "created_at": "2024-09-30T22:45:31.000000Z",
-                "updated_at": "2024-09-30T22:45:31.000000Z"
-                },
-                "tags": [
-                {
-                    "id": 4,
-                    "name": "UX",
-                    "slug": "ux",
-                    "created_at": "2024-09-30T22:45:31.000000Z",
-                    "updated_at": "2024-09-30T22:45:31.000000Z",
-                    "pivot": {
-                    "post_id": 1,
-                    "tag_id": 4
-                    }
-                }
-                ]
-            },
-      </pre>
+    <div class="container my-4">
+        <h2 class="fs-4 text-secondary my-4">
+        </h2>
+        <div class="row justify-content-center">
+            <div class="col">
+                <div class="card">
+
+                    <div class="card-header">
+                        <h2>posts</h2>
+                    </div>
+
+                    <div class="bigcontainer">
+                        <div class="card" style="width: 18rem;" v-for="post in data">
+                            <div class="card-body">
+                                <h5 class="card-title">#{{ post.id }}: {{ post.title }}</h5>
+                                <h6 class="card-subtitle mb-2 text-body-secondary">{{ post.slug }}</h6>
+                                <p class="card-text">{{ post.subject }}</p>
+                                <a href="#" class="card-link">{{ post.number_of_posts }}</a>
+                                <a href="#" class="card-link">{{ post.collaborators }}</a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.bigcontainer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.bigcontainer>.card {
+    margin: 15px;
+}
+</style>
