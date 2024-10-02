@@ -83,14 +83,33 @@ export default {
                     </nav>
 
                     <div class="bigcontainer">
-                        <div class="card" style="width: 18rem;" v-for="item in data">
+
+                        <!-- posts -->
+                        <div class="card" style="width: 18rem;" v-if="requestType=='posts'" v-for="item in data">
                             <img :src="item.image_path" class="card-img-top" alt="...">
                             <div class="card-body">
                                 <h5 class="card-title">#{{ item.id }}: {{ item.title }}{{ item.name }}</h5>
                                 <h6 class="card-subtitle mb-2 text-body-secondary">{{ item.slug }}</h6>
                                 <p class="card-text">{{ item.subject }}</p>
-                                <a href="#" class="card-link">{{ item.number_of_posts }}</a>
-                                <a href="#" class="card-link">{{ item.collaborators }}</a>
+                                <a v-if="item.type.name" href="#" class="card-link">{{ item.type.name }}</a>
+                                <p
+                                  v-if="item.tags.length"
+                                  href="#"
+                                  class="card-link"
+                                  v-for="tag in item.tags">
+                                    <a  href="">{{tag.name}}</a>
+                                </p>
+                                <p v-else>no tags</p>
+                            </div>
+                        </div>
+
+                        <!-- types & tags -->
+                        <div class="card" style="width: 18rem;" v-if="requestType=='tags'||requestType=='types'" v-for="item in data">
+                            <img :src="item.image_path" class="card-img-top" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">#{{ item.id }}: {{ item.name }}</h5>
+                                <h6 class="card-subtitle mb-2 text-body-secondary">{{ item.slug }}</h6>
+                                <p class="card-text"></p>
                             </div>
                         </div>
                     </div>
